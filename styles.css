@@ -152,15 +152,25 @@ button:hover {
 
 .result-area,
 .history-area,
-.contact-area {
+.contact-area,
+.comments-area {
   margin-top: 24px;
 }
 
 .result-area h2,
 .history-area h2,
-.contact-area h2 {
+.contact-area h2,
+.comments-area h2 {
   margin-bottom: 12px;
   font-size: 1.1rem;
+}
+
+.comments-area {
+  padding-top: 8px;
+}
+
+#disqus_thread {
+  margin-top: 8px;
 }
 
 .contact-description {
