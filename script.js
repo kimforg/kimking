@@ -120,3 +120,21 @@ clearBtn.addEventListener('click', () => {
 
 renderNumbers(generateMultipleLottoNumbers(8));
 renderHistory();
+
+// 테마 전환 (다크모드 / 라이트모드) 기능 구현
+const themeToggleBtn = document.getElementById('themeToggleBtn');
+const THEME_KEY = 'lotto-theme';
+
+const savedTheme = localStorage.getItem(THEME_KEY);
+if (savedTheme === 'light') {
+  document.body.classList.add('light-theme');
+  themeToggleBtn.textContent = '🌙';
+} else {
+  themeToggleBtn.textContent = '☀️';
+}
+
+themeToggleBtn.addEventListener('click', () => {
+  const isLight = document.body.classList.toggle('light-theme');
+  localStorage.setItem(THEME_KEY, isLight ? 'light' : 'dark');
+  themeToggleBtn.textContent = isLight ? '🌙' : '☀️';
+});
