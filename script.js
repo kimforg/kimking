@@ -2,6 +2,8 @@ const generateBtn = document.getElementById('generateBtn');
 const clearBtn = document.getElementById('clearBtn');
 const numbersEl = document.getElementById('numbers');
 const historyList = document.getElementById('historyList');
+const contactForm = document.getElementById('contactForm');
+const formStatus = document.getElementById('formStatus');
 
 const STORAGE_KEY = 'lotto-history';
 
@@ -138,3 +140,31 @@ themeToggleBtn.addEventListener('click', () => {
   localStorage.setItem(THEME_KEY, isLight ? 'light' : 'dark');
   themeToggleBtn.textContent = isLight ? '🌙' : '☀️';
 });
+
+if (contactForm && formStatus) {
+  contactForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    formStatus.textContent = '전송 중...';
+
+    const formData = new FormData(contactForm);
+
+    try {
+      const response = await fetch(contactForm.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Accept: 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        formStatus.textContent = '문의가 성공적으로 전송되었습니다. 감사합니다!';
+        contactForm.reset();
+      } else {
+        formStatus.textContent = '전송에 실패했습니다. 잠시 후 다시 시도해주세요.';
+      }
+    } catch (error) {
+      formStatus.textContent = '네트워크 오류로 전송하지 못했습니다.';
+    }
+  });
+}

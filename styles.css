@@ -151,14 +151,66 @@ button:hover {
 }
 
 .result-area,
-.history-area {
+.history-area,
+.contact-area {
   margin-top: 24px;
 }
 
 .result-area h2,
-.history-area h2 {
+.history-area h2,
+.contact-area h2 {
   margin-bottom: 12px;
   font-size: 1.1rem;
+}
+
+.contact-description {
+  margin: 0 0 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.contact-form {
+  display: grid;
+  gap: 12px;
+}
+
+.contact-form label {
+  display: grid;
+  gap: 6px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  font: inherit;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: var(--muted);
+}
+
+.contact-form textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.contact-submit {
+  justify-self: start;
+}
+
+.form-status {
+  min-height: 1.2rem;
+  margin: 0;
+  color: var(--accent-2);
+  font-size: 0.95rem;
 }
 
 .number-grid {
