@@ -15,19 +15,51 @@ function generateLottoNumbers() {
   return Array.from(numbers).sort((a, b) => a - b);
 }
 
-function renderNumbers(numbers) {
+function generateMultipleLottoNumbers(count = 8) {
+  const sets = [];
+  for (let i = 0; i < count; i++) {
+    sets.push(generateLottoNumbers());
+  }
+  return sets;
+}
+
+function getBallColorClass(number) {
+  if (number <= 10) return 'ball-yellow';
+  if (number <= 20) return 'ball-blue';
+  if (number <= 30) return 'ball-red';
+  if (number <= 40) return 'ball-grey';
+  return 'ball-green';
+}
+
+function renderNumbers(sets) {
   numbersEl.innerHTML = '';
 
-  if (!numbers.length) {
+  if (!sets || !sets.length) {
     numbersEl.innerHTML = '<p class="empty">아직 생성된 번호가 없습니다.</p>';
     return;
   }
 
-  numbers.forEach((number) => {
-    const ball = document.createElement('div');
-    ball.className = 'ball';
-    ball.textContent = number;
-    numbersEl.appendChild(ball);
+  sets.forEach((numbers, index) => {
+    const row = document.createElement('div');
+    row.className = 'number-row';
+
+    const label = document.createElement('span');
+    label.className = 'row-label';
+    label.textContent = String.fromCharCode(65 + index); // A, B, C, D, E, F, G, H
+    row.appendChild(label);
+
+    const ballsContainer = document.createElement('div');
+    ballsContainer.className = 'balls-container';
+
+    numbers.forEach((number) => {
+      const ball = document.createElement('div');
+      ball.className = `ball ${getBallColorClass(number)}`;
+      ball.textContent = number;
+      ballsContainer.appendChild(ball);
+    });
+
+    row.appendChild(ballsContainer);
+    numbersEl.appendChild(row);
   });
 }
 
@@ -36,11 +68,11 @@ function getHistory() {
   return saved ? JSON.parse(saved) : [];
 }
 
-function saveHistory(numbers) {
+function saveHistory(sets) {
   const history = getHistory();
   const entry = {
     id: Date.now(),
-    numbers,
+    sets,
     createdAt: new Date().toLocaleString('ko-KR')
   };
 
@@ -60,15 +92,21 @@ function renderHistory() {
   history.forEach((item) => {
     const li = document.createElement('li');
     li.className = 'history-item';
-    li.innerHTML = `<strong>${item.createdAt}</strong><br />${item.numbers.join(' · ')}`;
+    
+    const sets = item.sets || (item.numbers ? [item.numbers] : []);
+    const setsPreview = sets.map((set, index) => {
+      return `<span class="history-set" style="display: block; margin-top: 4px;"><strong style="color: var(--accent);">${String.fromCharCode(65 + index)}</strong>: ${set.join(', ')}</span>`;
+    }).join('');
+
+    li.innerHTML = `<strong>${item.createdAt} (총 ${sets.length}개 세트)</strong><div class="history-sets-container" style="margin-top: 4px; font-size: 0.9rem; line-height: 1.4;">${setsPreview}</div>`;
     historyList.appendChild(li);
   });
 }
 
 function generateAndSave() {
-  const numbers = generateLottoNumbers();
-  renderNumbers(numbers);
-  saveHistory(numbers);
+  const sets = generateMultipleLottoNumbers(8);
+  renderNumbers(sets);
+  saveHistory(sets);
   renderHistory();
 }
 
@@ -80,5 +118,5 @@ clearBtn.addEventListener('click', () => {
   renderNumbers([]);
 });
 
-renderNumbers(generateLottoNumbers());
+renderNumbers(generateMultipleLottoNumbers(8));
 renderHistory();
