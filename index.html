@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>로또번호 추천사이트</title>
+    <meta name="description" content="간단하게 로또번호를 추천받는 사이트입니다." />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section class="card">
+        <header class="hero">
+          <p class="eyebrow">오늘의 운세를 담아</p>
+          <h1>로또번호 추천사이트</h1>
+          <p class="subtitle">클릭 한 번으로 당첨 확률을 높여줄 번호를 생성해보세요.</p>
+        </header>
+
+        <div class="actions">
+          <button id="generateBtn" class="primary-btn">번호 생성하기</button>
+          <button id="clearBtn" class="secondary-btn">기록 지우기</button>
+        </div>
+
+        <section class="result-area">
+          <h2>추천 번호</h2>
+          <div id="numbers" class="number-grid" aria-live="polite"></div>
+        </section>
+
+        <section class="history-area">
+          <h2>최근 추천 기록</h2>
+          <ul id="historyList" class="history-list"></ul>
+        </section>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
