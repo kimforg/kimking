@@ -207,90 +207,12 @@ button:hover {
   color: var(--muted);
 }
 
-..contact-form textarea {
+.contact-form textarea {
   resize: vertical;
   min-height: 110px;
 }
 
-.comment-form {
-  display: grid;
-  gap: 12px;
-}
-
-.comment-form label {
-  display: grid;
-  gap: 6px;
-  font-weight: 600;
-  color: var(--text);
-}
-
-.comment-form input,
-.comment-form textarea {
-  width: 100%;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 12px 14px;
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--text);
-  font: inherit;
-}
-
-.comment-form input::placeholder,
-.comment-form textarea::placeholder {
-  color: var(--muted);
-}
-
-.comment-list-container {
-  margin-top: 20px;
-}
-
-.comment-list-title {
-  margin: 0 0 10px;
-  font-size: 1rem;
-  color: var(--text);
-}
-
-.comment-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 12px;
-}
-
-.comment-item {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 16px;
-}
-
-.comment-header {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.comment-author {
-  font-weight: 700;
-  color: var(--accent);
-}
-
-.comment-time {
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-
-.comment-body {
-  margin: 0;
-  line-height: 1.6;
-  color: var(--text);
-}
-
-.contact-submit,
-.comment-submit {
+.contact-submit {
   justify-self: start;
 }
 
@@ -299,6 +221,45 @@ button:hover {
   margin: 0;
   color: var(--accent-2);
   font-size: 0.95rem;
+}
+
+.animal-test-area {
+  margin-top: 24px;
+}
+
+.animal-test-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.webcam-container {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  padding: 12px;
+}
+
+.webcam-container canvas {
+  max-width: 100%;
+  border-radius: 16px;
+}
+
+.label-container {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+  font-weight: 700;
+}
+
+.animal-status {
+  color: var(--muted);
 }
 
 .number-grid {

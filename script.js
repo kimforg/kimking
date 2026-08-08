@@ -4,12 +4,8 @@ const numbersEl = document.getElementById('numbers');
 const historyList = document.getElementById('historyList');
 const contactForm = document.getElementById('contactForm');
 const formStatus = document.getElementById('formStatus');
-const commentForm = document.getElementById('commentForm');
-const commentList = document.getElementById('commentList');
-const commentStatus = document.getElementById('commentStatus');
 
 const STORAGE_KEY = 'lotto-history';
-const COMMENTS_STORAGE_KEY = 'lotto-comments';
 
 function generateLottoNumbers() {
   const numbers = new Set();
@@ -126,7 +122,6 @@ clearBtn.addEventListener('click', () => {
 
 renderNumbers(generateMultipleLottoNumbers(8));
 renderHistory();
-renderComments();
 
 // 테마 전환 (다크모드 / 라이트모드) 기능 구현
 const themeToggleBtn = document.getElementById('themeToggleBtn');
@@ -174,95 +169,69 @@ if (contactForm && formStatus) {
   });
 }
 
-function getComments() {
-  const saved = localStorage.getItem(COMMENTS_STORAGE_KEY);
-  return saved ? JSON.parse(saved) : [];
-}
+const ANIMAL_MODEL_URL = 'https://teachablemachine.withgoogle.com/models/PO0kPKywu/';
+let animalModel, animalWebcam, animalLabelContainer, animalMaxPredictions;
+const animalStartBtn = document.getElementById('animalStartBtn');
+const animalStatus = document.getElementById('animalStatus');
 
-function saveComment(comment) {
-  const comments = getComments();
-  comments.unshift(comment);
-  localStorage.setItem(COMMENTS_STORAGE_KEY, JSON.stringify(comments.slice(0, 50)));
-}
-
-function formatCommentTime(timestamp) {
-  return new Date(timestamp).toLocaleString('ko-KR', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
-}
-
-function renderComments() {
-  if (!commentList) return;
-
-  const comments = getComments();
-  commentList.innerHTML = '';
-
-  if (!comments.length) {
-    commentList.innerHTML = '<li class="empty">아직 작성된 댓글이 없습니다.</li>';
+async function init() {
+  if (animalModel) {
+    animalStatus.textContent = '이미 실행 중입니다.';
     return;
   }
 
-  comments.forEach((comment) => {
-    const li = document.createElement('li');
-    li.className = 'comment-item';
+  animalStatus.textContent = '모델을 로딩 중입니다...';
 
-    const header = document.createElement('div');
-    header.className = 'comment-header';
+  try {
+    const modelURL = ANIMAL_MODEL_URL + 'model.json';
+    const metadataURL = ANIMAL_MODEL_URL + 'metadata.json';
 
-    const author = document.createElement('span');
-    author.className = 'comment-author';
-    author.textContent = comment.name;
+    animalModel = await tmImage.load(modelURL, metadataURL);
+    animalMaxPredictions = animalModel.getTotalClasses();
 
-    const time = document.createElement('span');
-    time.className = 'comment-time';
-    time.textContent = formatCommentTime(comment.createdAt);
+    const flip = true;
+    animalWebcam = new tmImage.Webcam(320, 320, flip);
+    await animalWebcam.setup();
+    await animalWebcam.play();
 
-    header.appendChild(author);
-    header.appendChild(time);
+    const webcamContainer = document.getElementById('webcam-container');
+    webcamContainer.innerHTML = '';
+    webcamContainer.appendChild(animalWebcam.canvas);
 
-    const body = document.createElement('p');
-    body.className = 'comment-body';
-    body.textContent = comment.message;
+    animalLabelContainer = document.getElementById('label-container');
+    animalLabelContainer.innerHTML = '';
+    for (let i = 0; i < animalMaxPredictions; i += 1) {
+      const labelElement = document.createElement('div');
+      labelElement.className = 'label-item';
+      animalLabelContainer.appendChild(labelElement);
+    }
 
-    li.appendChild(header);
-    li.appendChild(body);
-    commentList.appendChild(li);
+    animalStatus.textContent = '웹캠이 준비되었습니다. 화면에 동물을 보여주세요.';
+    if (animalStartBtn) {
+      animalStartBtn.disabled = true;
+    }
+    window.requestAnimationFrame(animalLoop);
+  } catch (error) {
+    animalStatus.textContent = '모델 로딩 또는 웹캠 연결에 실패했습니다.';
+    console.error(error);
+  }
+}
+
+async function animalLoop() {
+  if (!animalWebcam || !animalModel) return;
+  animalWebcam.update();
+  await animalPredict();
+  window.requestAnimationFrame(animalLoop);
+}
+
+async function animalPredict() {
+  const prediction = await animalModel.predict(animalWebcam.canvas);
+  prediction.forEach((item, index) => {
+    const probability = (item.probability * 100).toFixed(1);
+    animalLabelContainer.childNodes[index].innerHTML = `${item.className}: ${probability}%`;
   });
 }
 
-if (commentForm) {
-  commentForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-
-    const nameInput = document.getElementById('commentName');
-    const messageInput = document.getElementById('commentMessage');
-    const name = nameInput?.value.trim();
-    const message = messageInput?.value.trim();
-
-    if (!name || !message) {
-      commentStatus.textContent = '이름과 댓글 내용을 모두 입력해주세요.';
-      return;
-    }
-
-    const comment = {
-      id: Date.now(),
-      name,
-      message,
-      createdAt: new Date().toISOString(),
-    };
-
-    saveComment(comment);
-    renderComments();
-
-    commentForm.reset();
-    commentStatus.textContent = '댓글이 등록되었습니다!';
-
-    setTimeout(() => {
-      commentStatus.textContent = '';
-    }, 3000);
-  });
+if (animalStartBtn) {
+  animalStartBtn.addEventListener('click', init);
 }

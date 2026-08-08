@@ -35,6 +35,17 @@
           <ul id="historyList" class="history-list"></ul>
         </section>
 
+        <section class="animal-test-area">
+          <h2>강아지 / 고양이 분류 테스트</h2>
+          <p class="subtitle">웹캠으로 강아지인지 고양이인지 확인해보세요.</p>
+          <div class="animal-test-actions">
+            <button id="animalStartBtn" class="primary-btn" type="button" onclick="init()">Start</button>
+            <span id="animalStatus" class="animal-status">준비되었습니다.</span>
+          </div>
+          <div id="webcam-container" class="webcam-container"></div>
+          <div id="label-container" class="label-container"></div>
+        </section>
+
         <section class="contact-area" aria-labelledby="contactTitle">
           <h2 id="contactTitle">제휴 문의</h2>
           <p class="contact-description">서비스 제휴, 광고, 협업 제안이 있다면 아래 양식으로 보내주세요.</p>
@@ -80,6 +91,8 @@
       </section>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
