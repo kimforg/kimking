@@ -58,29 +58,27 @@
 
         <section class="comments-area" aria-labelledby="commentsTitle">
           <h2 id="commentsTitle">댓글</h2>
-          <div id="disqus_thread"></div>
-          <noscript>
-            Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
-          </noscript>
+          <form id="commentForm" class="comment-form">
+            <label>
+              이름
+              <input type="text" name="commentName" id="commentName" placeholder="홍길동" required />
+            </label>
+            <label>
+              댓글
+              <textarea name="commentMessage" id="commentMessage" rows="4" placeholder="댓글을 입력해주세요." required></textarea>
+            </label>
+            <button type="submit" class="primary-btn comment-submit">댓글 작성</button>
+            <p id="commentStatus" class="form-status" aria-live="polite"></p>
+          </form>
+
+          <div class="comment-list-container">
+            <h3 class="comment-list-title">최근 댓글</h3>
+            <ul id="commentList" class="comment-list"></ul>
+          </div>
         </section>
       </section>
     </main>
 
     <script src="script.js"></script>
-    <script>
-      window.disqus_config = function () {
-        this.page.url = 'https://kimking.pages.dev/';
-        this.page.identifier = 'kimking-home';
-      };
-
-      (function () {
-        var d = document;
-        var s = d.createElement('script');
-        s.async = true;
-        s.src = 'https://https-kimking-pages-dev.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-      })();
-    </script>
   </body>
 </html>

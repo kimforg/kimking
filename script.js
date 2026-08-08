@@ -4,8 +4,12 @@ const numbersEl = document.getElementById('numbers');
 const historyList = document.getElementById('historyList');
 const contactForm = document.getElementById('contactForm');
 const formStatus = document.getElementById('formStatus');
+const commentForm = document.getElementById('commentForm');
+const commentList = document.getElementById('commentList');
+const commentStatus = document.getElementById('commentStatus');
 
 const STORAGE_KEY = 'lotto-history';
+const COMMENTS_STORAGE_KEY = 'lotto-comments';
 
 function generateLottoNumbers() {
   const numbers = new Set();
@@ -122,6 +126,7 @@ clearBtn.addEventListener('click', () => {
 
 renderNumbers(generateMultipleLottoNumbers(8));
 renderHistory();
+renderComments();
 
 // 테마 전환 (다크모드 / 라이트모드) 기능 구현
 const themeToggleBtn = document.getElementById('themeToggleBtn');
@@ -166,5 +171,98 @@ if (contactForm && formStatus) {
     } catch (error) {
       formStatus.textContent = '네트워크 오류로 전송하지 못했습니다.';
     }
+  });
+}
+
+function getComments() {
+  const saved = localStorage.getItem(COMMENTS_STORAGE_KEY);
+  return saved ? JSON.parse(saved) : [];
+}
+
+function saveComment(comment) {
+  const comments = getComments();
+  comments.unshift(comment);
+  localStorage.setItem(COMMENTS_STORAGE_KEY, JSON.stringify(comments.slice(0, 50)));
+}
+
+function formatCommentTime(timestamp) {
+  return new Date(timestamp).toLocaleString('ko-KR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}
+
+function renderComments() {
+  if (!commentList) return;
+
+  const comments = getComments();
+  commentList.innerHTML = '';
+
+  if (!comments.length) {
+    commentList.innerHTML = '<li class="empty">아직 작성된 댓글이 없습니다.</li>';
+    return;
+  }
+
+  comments.forEach((comment) => {
+    const li = document.createElement('li');
+    li.className = 'comment-item';
+
+    const header = document.createElement('div');
+    header.className = 'comment-header';
+
+    const author = document.createElement('span');
+    author.className = 'comment-author';
+    author.textContent = comment.name;
+
+    const time = document.createElement('span');
+    time.className = 'comment-time';
+    time.textContent = formatCommentTime(comment.createdAt);
+
+    header.appendChild(author);
+    header.appendChild(time);
+
+    const body = document.createElement('p');
+    body.className = 'comment-body';
+    body.textContent = comment.message;
+
+    li.appendChild(header);
+    li.appendChild(body);
+    commentList.appendChild(li);
+  });
+}
+
+if (commentForm) {
+  commentForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const nameInput = document.getElementById('commentName');
+    const messageInput = document.getElementById('commentMessage');
+    const name = nameInput?.value.trim();
+    const message = messageInput?.value.trim();
+
+    if (!name || !message) {
+      commentStatus.textContent = '이름과 댓글 내용을 모두 입력해주세요.';
+      return;
+    }
+
+    const comment = {
+      id: Date.now(),
+      name,
+      message,
+      createdAt: new Date().toISOString(),
+    };
+
+    saveComment(comment);
+    renderComments();
+
+    commentForm.reset();
+    commentStatus.textContent = '댓글이 등록되었습니다!';
+
+    setTimeout(() => {
+      commentStatus.textContent = '';
+    }, 3000);
   });
 }
