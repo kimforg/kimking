@@ -1,7 +1,8 @@
+
 :root {
   color-scheme: dark;
   --bg: #0f172a;
-  --card: rgba(15, 23, 42, 0.92);
+  --card: rgba(15, 23, 42, 0.95);
   --text: #f8fafc;
   --muted: #94a3b8;
   --accent: #f59e0b;
@@ -9,7 +10,6 @@
   --border: rgba(255, 255, 255, 0.1);
 }
 
-/* 라이트모드 (화이트모드) 변수 */
 body.light-theme {
   color-scheme: light;
   --bg: #f8fafc;
@@ -25,21 +25,35 @@ body.light-theme {
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
-  font-family: "Pretendard", "Apple SD Gothic Neo", Arial, sans-serif;
-  background: linear-gradient(135deg, #020617, #111827 45%, #1e293b);
-  color: var(--text);
   min-height: 100vh;
+  font-family: "Pretendard", "Apple SD Gothic Neo", Arial, sans-serif;
+  color: var(--text);
+  background: linear-gradient(135deg, #020617, #111827 45%, #1e293b);
 }
 
 body.light-theme {
   background: linear-gradient(135deg, #f8fafc, #f1f5f9 45%, #e2e8f0);
 }
 
-/* 테마 전환 시 자연스러운 애니메이션 효과 */
-body, .card, button, .number-row, .row-label, .history-item {
-  transition: background-color 0.3s ease, background 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+button,
+input,
+textarea,
+a {
+  font: inherit;
+}
+
+body,
+button,
+input,
+textarea,
+select {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .app {
@@ -50,37 +64,32 @@ body, .card, button, .number-row, .row-label, .history-item {
 }
 
 .card {
-  width: min(100%, 720px);
+  width: min(100%, 980px);
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 24px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-  padding: 32px;
-  position: relative; /* 우측 상단 테마 버튼 배치를 위해 relative 지정 */
+  border-radius: 32px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+  padding: 36px;
+  position: relative;
 }
 
-/* 테마 토글 버튼 스타일 */
 .theme-toggle-container {
   position: absolute;
-  top: 24px;
-  right: 24px;
+  top: 28px;
+  right: 28px;
   z-index: 10;
 }
 
 .theme-toggle-btn {
-  background: rgba(255, 255, 255, 0.08);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
   border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.08);
   color: var(--text);
-  width: 42px;
-  height: 42px;
-  padding: 0;
   display: grid;
   place-items: center;
-  border-radius: 50%;
-  font-size: 1.25rem;
   cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 body.light-theme .theme-toggle-btn {
@@ -88,50 +97,136 @@ body.light-theme .theme-toggle-btn {
 }
 
 .theme-toggle-btn:hover {
-  transform: scale(1.1);
+  transform: translateY(-1px);
 }
 
 .hero {
   text-align: center;
-  margin-bottom: 24px;
 }
 
 .eyebrow {
-  margin: 0 0 8px;
+  margin: 0 0 12px;
   color: var(--accent-2);
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  font-size: 0.8rem;
+  font-weight: 700;
 }
 
 h1 {
-  margin: 0 0 8px;
-  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.05;
 }
 
 .subtitle {
-  margin: 0;
+  margin: 16px auto 0;
+  max-width: 760px;
   color: var(--muted);
-  line-height: 1.6;
+  line-height: 1.75;
+  font-size: 1rem;
+}
+
+.hero-note {
+  margin: 24px auto 28px;
+  max-width: 820px;
+  padding: 20px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.page-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+
+.page-nav a {
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+
+.page-nav a:hover,
+.page-nav a:focus-visible {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--accent-2);
+}
+
+.content-section {
+  margin-top: 34px;
+  padding: 30px 30px 26px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+}
+
+.section-header {
+  margin-bottom: 20px;
+}
+
+.content-grid,
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.info-card,
+.policy-box,
+.faq-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+  padding: 22px;
+}
+
+.info-card h2,
+.info-card h3,
+.policy-box h3 {
+  margin-top: 0;
+}
+
+.feature-list {
+  margin: 16px 0 0;
+  padding-left: 20px;
+  color: var(--muted);
+}
+
+.feature-list li {
+  margin-bottom: 10px;
+}
+
+.section-header p,
+.faq-item p,
+.policy-box p,
+.contact-description,
+.hero-note {
+  color: var(--muted);
 }
 
 .actions {
   display: flex;
-  justify-content: center;
-  gap: 12px;
   flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
   margin-bottom: 24px;
 }
 
 button {
   border: none;
   border-radius: 999px;
-  padding: 12px 20px;
-  font-size: 1rem;
+  padding: 12px 22px;
   font-weight: 700;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 button:hover {
@@ -141,7 +236,7 @@ button:hover {
 .primary-btn {
   background: linear-gradient(135deg, var(--accent), #fb923c);
   color: #111827;
-  box-shadow: 0 10px 25px rgba(245, 158, 11, 0.25);
+  box-shadow: 0 10px 25px rgba(245, 158, 11, 0.24);
 }
 
 .secondary-btn {
@@ -150,43 +245,41 @@ button:hover {
   border: 1px solid var(--border);
 }
 
+.result-panel {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 26px;
+  align-items: start;
+}
+
 .result-area,
 .history-area,
+.animal-test-area,
+.insights-area,
+.faq-area,
+.privacy-area,
 .contact-area,
 .comments-area {
-  margin-top: 24px;
+  margin-top: 0;
 }
 
-.result-area h2,
-.history-area h2,
-.contact-area h2,
-.comments-area h2 {
-  margin-bottom: 12px;
-  font-size: 1.1rem;
-}
-
-.comments-area {
-  padding-top: 8px;
-}
-
-#disqus_thread {
-  margin-top: 8px;
-}
-
-.contact-description {
-  margin: 0 0 12px;
-  color: var(--muted);
-  line-height: 1.6;
+.result-area h3,
+.history-area h3,
+.comments-area h2,
+.privacy-area h2,
+.faq-area h2,
+.contact-area h2 {
+  margin-bottom: 20px;
 }
 
 .contact-form {
   display: grid;
-  gap: 12px;
+  gap: 14px;
 }
 
 .contact-form label {
   display: grid;
-  gap: 6px;
+  gap: 8px;
   font-weight: 600;
   color: var(--text);
 }
@@ -195,11 +288,10 @@ button:hover {
 .contact-form textarea {
   width: 100%;
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 12px 14px;
+  border-radius: 14px;
+  padding: 14px 16px;
   background: rgba(255, 255, 255, 0.06);
   color: var(--text);
-  font: inherit;
 }
 
 .contact-form input::placeholder,
@@ -209,7 +301,7 @@ button:hover {
 
 .contact-form textarea {
   resize: vertical;
-  min-height: 110px;
+  min-height: 130px;
 }
 
 .contact-submit {
@@ -217,22 +309,17 @@ button:hover {
 }
 
 .form-status {
-  min-height: 1.2rem;
+  min-height: 1.3rem;
   margin: 0;
   color: var(--accent-2);
-  font-size: 0.95rem;
-}
-
-.animal-test-area {
-  margin-top: 24px;
 }
 
 .animal-test-actions {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   gap: 12px;
-  margin-bottom: 16px;
+  align-items: center;
+  margin-bottom: 18px;
 }
 
 .webcam-container {
@@ -240,21 +327,23 @@ button:hover {
   place-items: center;
   width: 100%;
   overflow: hidden;
-  border-radius: 20px;
+  border-radius: 24px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border);
-  padding: 12px;
+  padding: 16px;
 }
 
 .webcam-container canvas {
-  max-width: 100%;
-  border-radius: 16px;
+  width: 100%;
+  max-width: 640px;
+  height: auto;
+  border-radius: 18px;
 }
 
 .label-container {
   display: grid;
   gap: 10px;
-  margin-top: 14px;
+  margin-top: 16px;
   font-weight: 700;
 }
 
@@ -273,10 +362,10 @@ button:hover {
   display: flex;
   align-items: center;
   gap: 16px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
-  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 18px;
+  padding: 14px 18px;
   width: 100%;
   justify-content: space-between;
 }
@@ -286,17 +375,16 @@ button:hover {
   font-weight: 800;
   color: var(--accent);
   background: rgba(245, 158, 11, 0.1);
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   display: grid;
   place-items: center;
-  border-radius: 8px;
-  flex-shrink: 0;
+  border-radius: 10px;
 }
 
 .balls-container {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   flex-wrap: wrap;
   justify-content: flex-end;
 }
@@ -312,26 +400,28 @@ button:hover {
   color: #111827;
   background: linear-gradient(135deg, #fde68a, #f59e0b);
   box-shadow: inset 0 -4px 8px rgba(0, 0, 0, 0.18);
-  flex-shrink: 0;
 }
 
-/* 색상별 로또 공 디자인 */
 .ball-yellow {
   background: linear-gradient(135deg, #fef08a, #eab308);
   color: #1e293b;
 }
+
 .ball-blue {
   background: linear-gradient(135deg, #93c5fd, #2563eb);
   color: #ffffff;
 }
+
 .ball-red {
   background: linear-gradient(135deg, #fca5a5, #dc2626);
   color: #ffffff;
 }
+
 .ball-grey {
   background: linear-gradient(135deg, #cbd5e1, #475569);
   color: #ffffff;
 }
+
 .ball-green {
   background: linear-gradient(135deg, #86efac, #16a34a);
   color: #ffffff;
@@ -348,8 +438,8 @@ button:hover {
 .history-item {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 12px 14px;
+  border-radius: 16px;
+  padding: 14px 16px;
   color: var(--muted);
 }
 
@@ -359,42 +449,70 @@ button:hover {
   padding: 16px 0;
 }
 
-@media (max-width: 480px) {
+.site-footer {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+  .result-panel,
+  .content-grid,
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .page-nav a {
+    padding: 8px 14px;
+  }
+}
+
+@media (max-width: 580px) {
   .card {
-    padding: 36px 14px 24px; /* 상단 버튼 공간 확보를 위해 패딩 조정 */
+    padding: 26px 18px 22px;
   }
 
-  .theme-toggle-container {
-    top: 12px;
-    right: 12px;
+  .hero-note {
+    padding: 18px 16px;
   }
 
-  .theme-toggle-btn {
-    width: 34px;
-    height: 34px;
-    font-size: 1.05rem;
+  .page-nav {
+    gap: 8px;
+  }
+
+  .result-panel,
+  .info-grid,
+  .content-grid {
+    gap: 18px;
   }
 
   .number-row {
-    padding: 8px 12px;
-    gap: 8px;
-    border-radius: 12px;
-  }
-
-  .row-label {
-    width: 26px;
-    height: 26px;
-    font-size: 0.9rem;
-    border-radius: 6px;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .balls-container {
-    gap: 4px;
+    justify-content: flex-start;
   }
 
   .ball {
-    width: 36px;
-    height: 36px;
-    font-size: 0.9rem;
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .row-label {
+    width: 30px;
+    height: 30px;
+  }
+
+  .webcam-container {
+    padding: 12px;
   }
 }
